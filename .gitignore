@@ -1,0 +1,4 @@
+.vscode
+backend/.env
+backend/node_modules
+backend/generated

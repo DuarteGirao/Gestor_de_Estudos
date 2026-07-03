@@ -1,0 +1,57 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Course {
+  id       Int        @id(map: "Courseid") @default(autoincrement())
+  nome     String
+  userid   Int
+  cor      String
+  semestre Int
+  User     User       @relation(fields: [userid], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "UserId")
+  Deadline Deadline[]
+  Grade    Grade[]
+  Schedule Schedule[]
+}
+
+model Deadline {
+  id        Int      @id(map: "DeadlineID") @default(autoincrement())
+  courseId  Int
+  titulo    String
+  data      DateTime @db.Date
+  concluido Boolean
+  Course    Course   @relation(fields: [courseId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "CourseID")
+}
+
+model Grade {
+  id       Int    @id(map: "GradesID") @default(autoincrement())
+  courseId Int
+  tipo     String
+  nota     Float
+  peso     Float  @db.Real
+  Course   Course @relation(fields: [courseId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Couseid")
+}
+
+model Schedule {
+  id          Int      @id(map: "ScheduleID") @default(autoincrement())
+  courseId    Int
+  dia_semana  Int      @db.SmallInt
+  hora_inicio DateTime @db.Time(6)
+  hora_fim    DateTime @db.Time(6)
+  sala        String
+  Course      Course   @relation(fields: [courseId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "courseId")
+}
+
+model User {
+  id            Int      @id(map: "UserID") @default(autoincrement())
+  nome          String
+  email         String   @unique(map: "Email")
+  password_hash String
+  Course        Course[]
+}
