@@ -90,6 +90,10 @@ export const deleteCourse = async (req: Request<{ id: string }>, res: Response) 
             res.status(404).json({ message: "Curso não encontrado" });
             return;
         }
+        if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2003') {
+            res.status(409).json({ message: "Não é possível apagar esta cadeira, pois tem notas, prazos ou horários associados." });
+            return;
+        }
         console.error(error);
         res.status(500).json({ message: "Internal server error" });
     }
