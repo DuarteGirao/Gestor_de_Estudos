@@ -14,7 +14,7 @@ export async function login(email: string, password: string) {
   }
 
   const data = await response.json();
-  return data; // { token: "..." }
+  return data; 
 }
 
 
