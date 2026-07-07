@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { login as loginService } from '../services/authService';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 function Login() {
   const navigate = useNavigate();
@@ -25,6 +26,7 @@ function Login() {
   }
 
   return (
+    <>
     <form onSubmit={handleSubmit}>
       <h1>Login</h1>
       
@@ -46,6 +48,8 @@ function Login() {
 
       <button type="submit">Entrar</button>
     </form>
+    <p>Não tens conta? <Link to="/register">Regista-te aqui</Link></p>
+    </>
   );
 }
 
